@@ -2,12 +2,17 @@ var express = require('express');
 var cool = require('cool-ascii-faces');
 var mailer = require("nodemailer");
 
+
+var email_sender_id = process.env.email_sender_id;
+var email_sender_pass = process.env.email_sender_pass;
+var to = process.env.email_to;
+
 // Use Smtp Protocol to send Email
 var smtpTransport = mailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "chocochips1101@gmail.com",
-        pass: "ahrb1234"
+        user: email_sender_id,
+        pass: email_sender_pass
     }
 });
 
@@ -32,7 +37,7 @@ app.get('/cool', function(request, response) {
     var mail = {
     	from: "Smart Washer Notifications<smartDryer@gmail.com>",
     	//to: "sutthipong@gmail.com",
-    	to: "amit.hetawal@gmail.com",
+    	to: to,
     	subject: "Your Dryer if off now",
     	text: "Dryer Notification",
     	html: "<b>Smart Dryer for Smart People !!</b>"

@@ -46,7 +46,7 @@ app.get('/cool', function(request, response) {
 	smtpTransport.sendMail(mail, function(error, response1) {
    	if (error) {
         console.log(error);
-        response.send(cool());
+        response.send(error);
    	} else {
         console.log('Message sent');
         response.send(cool());

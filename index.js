@@ -20,7 +20,7 @@ var mail = {
                from: "Smart Washer Notifications<smartDryer@gmail.com>",
 	            //to: "sutthipong@gmail.com",
 			    to: to,
-			    subject: "Your Dryer if off now",
+			    subject: "Your Dryer is OFF now",
 			    text: "Dryer Notification",
 			    html: "<b>Smart Dryer for Smart People !!</b>"
 			};

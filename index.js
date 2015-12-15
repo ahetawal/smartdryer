@@ -67,7 +67,7 @@ var sendMail = function() {
 };
 
 
-var i = new Timeout(sendMail, 300000);
+var i = new Timeout(sendMail, 110000);
 
 
 

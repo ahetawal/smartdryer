@@ -35,11 +35,40 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
-var memjs = require('memjs');
-var storage = memjs.Client.create();
+var Timeout = function (fn, time) {
+    var timer = false;
+    this.start = function () {
+        if (!this.isRunning()){
+        	console.log("Timer starting : " + new Date());
+            timer = setTimeout(fn, time);
+        } else {
+        	this.stop();
+        }
+    };
+    this.stop = function () {
+        clearTimeout(timer);
+        timer = false;
+        console.log("Timer stopped : " + new Date());
+    };
+    this.isRunning = function () {
+        return timer !== false;
+    };
+};
+
+var sendMail = function() {
+	smtpTransport.sendMail(mail, function(error, response1) {
+		if (error) {
+		 	console.log(error);
+		 } else {
+	  		console.log("SENDING EMAIL");
+	  	}
+		i.stop();
+	});
+};
 
 
-storage.set('receivedAt', JSON.stringify(new Date()));
+var i = new Timeout(sendMail, 480000);
+
 
 
 app.get('/', function(request, response) {
@@ -47,33 +76,11 @@ app.get('/', function(request, response) {
 });
 
 app.get('/cool', function(request, response) {
-      
-    var queryParam = request.query.state;
-    console.log("Query param is : " + queryParam);
-    
-    storage.get('receivedAt', function(err, data){
-	    if(err) {
-			console.log("Error getting data from cache");
-			console.log(err);
-	    } else {
-			var dateAt = new Date(JSON.parse(data));
-			console.log("From cache : " + dateAt);
-			sendMail(response);
-	    }
-    });
+      i.start();
+      response.send(cool());
 });
 
-var sendMail = function(response) {
-	smtpTransport.sendMail(mail, function(error, response1) {
-		if (error) {
-		 	console.log(error);
-		 	response.send(error);
-		} else {
-	  		console.log('Message sent');
-	  		response.send(cool());
-		}
-	});
-};
+
 
 
 app.listen(app.get('port'), function() {

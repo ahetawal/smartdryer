@@ -6,6 +6,8 @@ var mailer = require("nodemailer");
 var email_sender_id = process.env.email_sender_id;
 var email_sender_pass = process.env.email_sender_pass;
 var to = process.env.email_to;
+var timeout_in_min = process.env.wait_time_in_min || 5;
+
 
 // Use Smtp Protocol to send Email
 var smtpTransport = mailer.createTransport({
@@ -67,7 +69,7 @@ var sendMail = function() {
 };
 
 
-var i = new Timeout(sendMail, 110000);
+var i = new Timeout(sendMail, timeout_in_min*60*1000);
 
 
 

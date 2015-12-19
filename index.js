@@ -41,10 +41,10 @@ var Timeout = function (fn, time) {
     var timer = false;
     this.start = function () {
         if (!this.isRunning()){
-        	console.log("Timer starting : " + new Date());
+        	//console.log("New Timer starting : " + new Date());
             timer = setTimeout(fn, time);
         } else {
-        	this.stop();
+        	this.reset();
         }
     };
     this.stop = function () {
@@ -52,6 +52,14 @@ var Timeout = function (fn, time) {
         timer = false;
         console.log("Timer stopped : " + new Date());
     };
+    
+    this.reset = function () {
+        clearTimeout(timer);
+        timer = false;
+        console.log("Timer reset : " + new Date());
+        this.start();
+    };
+
     this.isRunning = function () {
         return timer !== false;
     };
@@ -78,7 +86,7 @@ app.get('/', function(request, response) {
 });
 
 app.get('/cool', function(request, response) {
-      i.start();
+      i.reset();
       response.send(cool());
 });
 
